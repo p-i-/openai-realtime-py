@@ -19,17 +19,27 @@ So here's a start at a Python implementation.
 
 - Create a `.env` file like `.env.template` filling in your OpenAI API key
 
-- Run it: `python realtime-simple.py` or `python realtime-classes.py`
+- Run it
+
+You can run the legacy files: `python legacy/realtime-simple.py` or `python legacy/realtime-classes.py` which work while being minimal (especially the first one). Probably good for getting a feeling of how it works.
+
+Alternatively `cd src; python main.py` -- this is the codebase I'll be building off moving forwards.
 
 
 # Notes:
 
-- `realtime-simple.py` is "Least number of lines that gets the job done"
-- `realtime-classes.py` is arguably tidier
+## legacy/
+- `legacy/realtime-simple.py` is "Least number of lines that gets the job done"
+- `legacy/realtime-classes.py` is arguably tidier
 
 Both work! The AI talks to you, and you can talk back.
 
 I have to mute the mic while the AI is speaking, else it gets back its own audio and gets very (entertainingly) confused. "Hello, I'm a helpful assistant!" "Gosh, so am I!" "What a coincidence!" "I know, right?!", etc.
+
+## src/ (current/future)
+I've abstracted websocket-stuff and audioIO-stuff into Socket.py and AudioIO.py, which leaves Realtime.py free to make more sense.
+
+I did take a run at doing this async with Trio, but at this point it just gets in the way. Maybe I'll return to an async model. I'm not sold on it, much as I love Trio; exception-handling and teardown are a pain.
 
 
 # Vision
