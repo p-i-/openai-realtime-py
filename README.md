@@ -19,7 +19,17 @@ So here's a start at a Python implementation.
 
 - Create a `.env` file like `.env.template` filling in your OpenAI API key
 
-- Run it: `python realtime-simple.py`
+- Run it: `python realtime-simple.py` or `python realtime-classes.py`
+
+
+# Notes:
+
+- `realtime-simple.py` is "Least number of lines that gets the job done"
+- `realtime-classes.py` is arguably tidier
+
+Both work! The AI talks to you, and you can talk back.
+
+I have to mute the mic while the AI is speaking, else it gets back its own audio and gets very (entertainingly) confused. "Hello, I'm a helpful assistant!" "Gosh, so am I!" "What a coincidence!" "I know, right?!", etc.
 
 
 # Vision
@@ -27,7 +37,7 @@ So here's a start at a Python implementation.
 It would be nice to clean this up to act as a fully-featured Python API for this service.
 
 
-# Notes
+# Do involve!
 
 Contributions are invited, in which case you are welcome to contact the author (You'll find a link to the sap.ient.ai Discord on https://github.com/sap-ient-ai upon which I exist as `_p_i_`).
 
