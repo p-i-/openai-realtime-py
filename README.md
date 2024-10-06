@@ -2,13 +2,11 @@
 
 Python implementation of OpenAI's realtime API
 
-Guide [here](https://platform.openai.com/docs/guides/realtime)
+OpenAI have a Node.js + JavaScript wrapper [here](https://github.com/openai/openai-realtime-api-beta), as well as a [openai-realtime-console](https://github.com/openai/openai-realtime-console) demo-project, but as yet nothing in Python, so here's a start at fixing that!
 
-API Ref [here](https://platform.openai.com/docs/api-reference/realtime-client-events)
-
-OpenAI have sample code ([openai-realtime-console](https://github.com/openai/openai-realtime-console)) but it is JavaScript-based.
-
-So here's a start at a Python implementation.
+### A couple of useful links:
+- [Guide](https://platform.openai.com/docs/guides/realtime)
+- [API Reference](https://platform.openai.com/docs/api-reference/realtime-client-events)
 
 
 # Getting it running
@@ -45,6 +43,19 @@ I did take a run at doing this async with Trio, but at this point it just gets i
 # Vision
 
 It would be nice to clean this up to act as a fully-featured Python API for this service.
+
+
+# TODO
+
+- Firstly the code needs picking through, to ensure a clean / robust skeleton.
+
+- Need some thought on what such a lib should expose & how to expose it (e.g. callbacks).
+
+- Fleshing out API support (it's quite a big API).
+
+- Tool-Use / Function-Calling.
+
+- User-interruption-support via feedback cancellation (currently I'm having to mute the mic while openAI audio is playing out of the speakers, which means I can't interrupt it) -- fun numpy challenge: correlation? adaptive-delay-filter??
 
 
 # Do involve!
