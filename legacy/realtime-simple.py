@@ -1,9 +1,11 @@
+import os
+os.system('cls' if os.name == 'nt' else 'clear')
+
 import threading
 import pyaudio
 import queue
 import base64
 import json
-import os
 import time
 from websocket import create_connection, WebSocketConnectionClosedException
 from dotenv import load_dotenv
