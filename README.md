@@ -39,6 +39,12 @@ I've abstracted websocket-stuff and audioIO-stuff into Socket.py and AudioIO.py,
 
 I did take a run at doing this async with Trio, but at this point it just gets in the way. Maybe I'll return to an async model. I'm not sold on it, much as I love Trio; exception-handling and teardown are a pain.
 
+## Additional note (7 Oct 2024)
+After some testing, it's clear that legacy/realtime-simple.py functions crisply, and there is some responsiveness issue with src/.
+
+This could be a locking issue, with audio arriving from the websocket into an input buffer, which is, on a worker thread, drained to the speakers. It could be with mic-data, which is buffered in a worker thread and drained to the websocket. It could be both, and/or something else.
+
+Python is not an ideal language for realtime audio processing, and likely this was factored into account by the OpenAI team's decision to initially publish only a Node.js implementation.
 
 # Vision
 
@@ -49,13 +55,15 @@ It would be nice to clean this up to act as a fully-featured Python API for this
 
 - Firstly the code needs picking through, to ensure a clean / robust skeleton.
 
+- EDIT: Actually the architecture in src/ needs to be revised, to account for the above Additional Note.
+
 - Need some thought on what such a lib should expose & how to expose it (e.g. callbacks).
 
 - Fleshing out API support (it's quite a big API).
 
 - Tool-Use / Function-Calling.
 
-- User-interruption-support via feedback cancellation (currently I'm having to mute the mic while openAI audio is playing out of the speakers, which means I can't interrupt it) -- fun numpy challenge: correlation? adaptive-delay-filter??
+- User-interruption-support via feedback cancellation (currently I'm having to mute the mic while openAI audio is playing out of the speakers, which means I can't interrupt it). There's WebRTC AEC (Adaptive Echo Cancellation), but I can't find any off-the-shelf pip library that doesn't require fiddling (building deps). Maybe `pip install adaptfilt` is a good solution. This looks doable.
 
 
 # Do involve!
