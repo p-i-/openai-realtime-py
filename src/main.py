@@ -1,12 +1,11 @@
 import os
 import signal
 import time
-import logging
 from dotenv import load_dotenv
 
 from Realtime import Realtime
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+from log import logger as logging
+from Tools import tools_message
 
 # Load environment variables from a .env file
 load_dotenv()
@@ -28,7 +27,7 @@ def main():
         logging.error('OPENAI_API_KEY not found in environment variables!')
         return
 
-    realtime = Realtime(api_key, ws_url)
+    realtime = Realtime(api_key, ws_url, session_config)
 
     signal.signal(signal.SIGINT, lambda sig, frame: signal_handler(sig, frame, realtime))
 
@@ -44,6 +43,27 @@ def main():
     finally:
         logging.info('Exiting main.')
         realtime.stop()  # Ensures cleanup if any error occurs
+
+session_config = {
+    "modalities": ["text"],
+    # "instructions": "You are a helpful assistant.",
+    # "voice": "sage",
+    # "input_audio_format": "pcm16",
+    # "output_audio_format": "pcm16",
+    # "input_audio_transcription": {
+    #     "model": "whisper-1"
+    # },
+    # "turn_detection": {
+    #     "type": "server_vad",
+    #     "threshold": 0.5,
+    #     "prefix_padding_ms": 300,
+    #     "silence_duration_ms": 500
+    # },
+    "tools": tools_message,
+    "tool_choice": "auto",
+    # "temperature": 0.8,
+    # "max_response_output_tokens": "inf"
+}
 
 if __name__ == '__main__':
     main()

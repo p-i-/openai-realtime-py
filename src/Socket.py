@@ -1,11 +1,10 @@
 import threading
 import queue
 import json
-import logging
 import select
 from websocket import create_connection, WebSocketConnectionClosedException
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+from log import logger as logging
 
 class Socket:
     def __init__(self, api_key, ws_url, on_msg=None):
@@ -37,14 +36,14 @@ class Socket:
                 if rlist:
                     message = self.ws.recv()
                     if message and self.on_msg:
-                        logging.info(f'Received message: {message}')
+                        logging.debug(f'Received message: {message}')
                         self.on_msg(json.loads(message))  # Call the user-provided callback
 
                 # Check if there's a message in the queue to send
                 try:
                     outgoing_message = self.send_queue.get_nowait()
                     self.ws.send(json.dumps(outgoing_message))
-                    logging.info(f'Sent message: {outgoing_message}')
+                    logging.debug(f'Sent message: {outgoing_message}')
                 except queue.Empty:
                     continue  # No message to send, loop back
             except WebSocketConnectionClosedException:

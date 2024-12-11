@@ -1,10 +1,9 @@
 import pyaudio
 import queue
 import time
-import logging
 import threading
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+from log import logger as logging
 
 CHUNK_SIZE = 1024
 RATE = 24000
@@ -87,7 +86,7 @@ class AudioIO:
         while not self._stop_event.is_set():
             if not self.mic_queue.empty():
                 mic_chunk = self.mic_queue.get()
-                logging.info(f'🎤 Processing {len(mic_chunk)} bytes of audio data.')
+                logging.debug(f'🎤 Processing {len(mic_chunk)} bytes of audio data.')
                 if self.on_audio_callback:
                     self.on_audio_callback(mic_chunk)  # Pass the audio chunk to the callback
             else:
